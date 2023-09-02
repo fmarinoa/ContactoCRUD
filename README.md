@@ -1,6 +1,7 @@
 # Mi Proyecto de CRUD de Contactos
 
 Este es un proyecto de CRUD (Crear, Leer, Actualizar y Eliminar) de contactos desarrollado utilizando React y .NET Core. Con esta aplicación, puedes administrar una lista de contactos personales.
+Puedes probar una demo en vivo de la aplicación [aquí](http://www.miscontactos.somee.com/).
 
 ## Características
 
@@ -8,6 +9,7 @@ Este es un proyecto de CRUD (Crear, Leer, Actualizar y Eliminar) de contactos de
 - **Agregar Contactos:** Agrega nuevos contactos con información como nombre, correo y teléfono.
 - **Editar Contactos:** Modifica la información de los contactos existentes.
 - **Eliminar Contactos:** Elimina contactos de la lista.
+- **Mensajes de espera:** Mensaje de espera con animacion mientras se le envía un correo de bienvenida.
 
 ## Tecnologías Utilizadas
 
@@ -38,6 +40,3 @@ Las contribuciones son bienvenidas. Si deseas contribuir al proyecto, sigue esto
 - [Email](mailto:franco.edson.18014@gmail.com)
 - [LinkedIn](https://www.linkedin.com/in/franco-mari%C3%B1o-2a289620a/)
 
-## Licencia
-
-Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para obtener más detalles.
