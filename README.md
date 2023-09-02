@@ -18,6 +18,11 @@ Puedes probar una demo en vivo de la aplicación [aquí](http://www.miscontactos
 - Bootstrap: Para estilos y componentes de interfaz de usuario.
 - SQL Server: Para la base de datos local.
 
+ ## Contacto
+
+- [Email](mailto:franco.edson.18014@gmail.com)
+- [LinkedIn](https://www.linkedin.com/in/franco-mari%C3%B1o-2a289620a/)
+
 ## Configuración del Proyecto
 
 1. Clona este repositorio en tu máquina local.
@@ -35,8 +40,5 @@ Las contribuciones son bienvenidas. Si deseas contribuir al proyecto, sigue esto
 4. Sube tus cambios a tu repositorio: `git push origin mi-caracteristica`.
 5. Abre una solicitud de extracción en este repositorio principal.
 
-## Contacto
 
-- [Email](mailto:franco.edson.18014@gmail.com)
-- [LinkedIn](https://www.linkedin.com/in/franco-mari%C3%B1o-2a289620a/)
 
