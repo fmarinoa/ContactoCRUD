@@ -1,4 +1,5 @@
 using ContactoCRUD.Models;
+using ContactoCRUD.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DBPRUEBASContext>();
+builder.Services.AddScoped<IEmailServices, EmailServices>();
 
 var app = builder.Build();
 

@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { Modal, ModalBody, ModalHeader, Form, FormGroup, Label, Input, ModalFooter, Button } from "reactstrap"
 import '../style/stiles.css'; // Importa el archivo CSS de estilos personalizados
-
 
 const modeloContacto = {
     idContacto: 0,
@@ -16,6 +15,7 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
     const [errorNombre, setErrorNombre] = useState("");
     const [errorCorreo, setErrorCorreo] = useState(""); // Nuevo estado para el mensaje de error del correo
     const [errorTelefono, setErrorTelefono] = useState(""); // Nuevo estado para el mensaje de error del correo
+    const [enviandoCorreo, setEnviandoCorreo] = useState(false);
 
     const actualizarDato = (e) => {
         const { name, value } = e.target;
@@ -35,15 +35,15 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
         setErrorNombre("");
         setErrorCorreo("");
         setErrorTelefono("");
-    
+
         if (editar != null) {
-          // Si estamos en modo edición, cargar los datos del contacto existente
-          setContacto(editar);
+            // Si estamos en modo edición, cargar los datos del contacto existente
+            setContacto(editar);
         } else {
-          // Si estamos en modo agregar, restablecer los campos a valores iniciales (vacíos)
-          setContacto(modeloContacto);
+            // Si estamos en modo agregar, restablecer los campos a valores iniciales (vacíos)
+            setContacto(modeloContacto);
         }
-      }, [mostrarModal, editar]);
+    }, [mostrarModal, editar]);
 
     const validarCorreo = (correo) => {
         // Expresión regular para validar el formato de correo electrónico
@@ -51,7 +51,7 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
         return emailRegex.test(correo);
     };
 
-    const enviarDatos = () => {
+    const enviarDatos = async () => {
         if (contacto.idContacto === 0) {
             // Validar los campos al agregar un nuevo contacto
             if (
@@ -67,8 +67,25 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
                 // Llamar a guardarContacto para agregar un nuevo contacto
                 guardarContacto(contacto);
 
-                // Restablecer los campos a sus valores iniciales (vacíos)
-                setContacto(modeloContacto);
+                // Mostrar el mensaje de espera
+                setEnviandoCorreo(true);
+
+                try {
+                    // Llamar a guardarContacto para agregar un nuevo contacto
+                    await guardarContacto(contacto);
+
+
+
+                    // Restablecer los campos a sus valores iniciales (vacíos)
+                    setContacto(modeloContacto);
+
+                    // Ocultar el mensaje de espera
+                    setEnviandoCorreo(false);
+                } catch (error) {
+                    // Manejo de errores si falla el envío del correo o la guardia del contacto
+                    console.error("Error al enviar el correo o guardar el contacto:", error);
+                    // Aquí puedes mostrar un mensaje de error al usuario si lo deseas
+                }
             } else {
                 // Mostrar mensajes de error si algún campo es inválido
                 if (contacto.nombre.trim() === "") {
@@ -146,55 +163,70 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
     }
 
     return (
-        <Modal isOpen={mostrarModal}>
+        <Modal isOpen={mostrarModal} >
             <ModalHeader>
                 {contacto.idContacto == 0 ? "Nuevo Contacto" : "Editar Contacto"}
             </ModalHeader>
             <ModalBody>
-                <Form>
-                    <FormGroup>
-                        <Label>Nombre</Label>
-                        <Input type="text" name="nombre" onChange={(e) => actualizarDato(e)} value={contacto.nombre}></Input>
-                        {errorNombre && (
-                            <span className="text-danger">{errorNombre}</span>
-                        )}
-                    </FormGroup>
+                {enviandoCorreo ? (
+                    <div className="text-center">
+                        <p className="mb-3">Enviando correo electrónico...</p>
+                        <div className="spinner-border text-primary" role="status">
+                        </div>
+                        <p className="mt-3">¡Por favor, revisa tu bandeja de entrada!</p>
+                    </div>
+                ) : (
+                    // Muestra el formulario cuando no se está enviando el correo
+                    <Form>
+                        <FormGroup>
+                            <Label>Nombre</Label>
+                            <Input type="text" name="nombre" onChange={(e) => actualizarDato(e)} value={contacto.nombre}></Input>
+                            {errorNombre && (
+                                <span className="text-danger">{errorNombre}</span>
+                            )}
+                        </FormGroup>
 
-                    <FormGroup>
-                        <Label>Correo</Label>
-                        <Input
-                            type="email"
-                            name="correo"
-                            onChange={(e) => actualizarDato(e)}
-                            value={contacto.correo}
-                            invalid={errorCorreo !== ""}
-                        ></Input>
-                        {errorCorreo && (
-                            <span className="text-danger">{errorCorreo}</span>
-                        )}
-                    </FormGroup>
+                        <FormGroup>
+                            <Label>Correo</Label>
+                            <Input
+                                type="email"
+                                name="correo"
+                                onChange={(e) => actualizarDato(e)}
+                                value={contacto.correo}
+                                invalid={errorCorreo !== ""}
+                            ></Input>
+                            {errorCorreo && (
+                                <span className="text-danger">{errorCorreo}</span>
+                            )}
+                        </FormGroup>
 
-                    <FormGroup>
-                        <Label>Teléfono</Label>
-                        <Input
-                            type="number"
-                            min="0"
-                            name="telefono"
-                            onChange={(e) => actualizarDato(e)}
-                            value={contacto.telefono}
-                            pattern="9\d{8,}"
-                        ></Input>
-                        {errorTelefono && (
-                            <span className="text-danger">{errorTelefono}</span>
-                        )}
-                    </FormGroup>
+                        <FormGroup>
+                            <Label>Teléfono</Label>
+                            <Input
+                                type="number"
+                                min="0"
+                                name="telefono"
+                                onChange={(e) => actualizarDato(e)}
+                                value={contacto.telefono}
+                                pattern="9\d{8,}"
+                            ></Input>
+                            {errorTelefono && (
+                                <span className="text-danger">{errorTelefono}</span>
+                            )}
+                        </FormGroup>
 
-                </Form>
+                    </Form>
+                )}
             </ModalBody>
             <ModalFooter>
-                <Button className="buttonBlue" color="primary" size="sm" onClick={enviarDatos}>Guardar</Button>
-                <Button className="buttonRed" color="danger" size="sm" onClick={cerrarModal}>Cerrar</Button>
+                {!enviandoCorreo ? (
+                    <>
+                        <Button className="buttonBlue" color="primary" size="sm" onClick={enviarDatos}>Guardar</Button>
+                        <Button className="buttonRed" color="danger" size="sm" onClick={cerrarModal}>Cerrar</Button>
+                    </>
+                ) : null}
             </ModalFooter>
+
         </Modal>
     )
 }
