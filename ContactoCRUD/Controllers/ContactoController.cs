@@ -48,7 +48,7 @@ namespace ContactoCRUD.Controllers
                     Contenido = $@"<html>
                                     <body>
                                         <p>
-                                            ¡Hola {request.Nombre}👋!,<br /><br />
+                                            ¡Hola {request.Nombre}👋!!,<br /><br />
                                             Estoy emocionado de tenerte como parte de mi comunidad. 🌟<br /><br />
                                             Espero que disfrutes de tu tiempo aquí y que encuentres mi aplicación útil y emocionante.<br /><br />
                                             Siempre estoy trabajando para mejorar y agregar nuevas características. ¡Tu opinión y comentarios son muy importantes para mí! 😊<br /><br />
