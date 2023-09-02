@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState,} from "react"
 import { Modal, ModalBody, ModalHeader, Form, FormGroup, Label, Input, ModalFooter, Button } from "reactstrap"
 import '../style/stiles.css'; // Importa el archivo CSS de estilos personalizados
 
@@ -57,7 +57,7 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
             if (
                 contacto.nombre.trim() !== "" &&
                 validarCorreo(contacto.correo) &&
-                contacto.telefono.length >= 9
+                /^9\d{8,}$/.test(contacto.telefono)
             ) {
                 // Limpiar los mensajes de error
                 setErrorNombre("");
@@ -100,8 +100,8 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
                     setErrorCorreo("");
                 }
 
-                if (contacto.telefono.length < 9) {
-                    setErrorTelefono("El número de teléfono debe tener al menos 9 dígitos.");
+                if (!/^9\d{8,}$/.test(contacto.telefono)) {
+                    setErrorTelefono("El número de teléfono debe comenzar con '9' y tener al menos 9 dígitos.");
                 } else {
                     setErrorTelefono("");
                 }
@@ -111,7 +111,7 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
             if (
                 contacto.nombre.trim() !== "" &&
                 validarCorreo(contacto.correo) &&
-                contacto.telefono.length >= 9
+                /^9\d{8,}$/.test(contacto.telefono)
             ) {
                 // Limpiar los mensajes de error
                 setErrorNombre("");
@@ -139,8 +139,8 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
                     setErrorCorreo("");
                 }
 
-                if (contacto.telefono.length < 9) {
-                    setErrorTelefono("El número de teléfono debe tener al menos 9 dígitos.");
+                if (!/^9\d{8,}$/.test(contacto.telefono)) {
+                    setErrorTelefono("El número de teléfono debe comenzar con '9' y tener al menos 9 dígitos.");
                 } else {
                     setErrorTelefono("");
                 }
@@ -165,7 +165,7 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
     return (
         <Modal isOpen={mostrarModal} >
             <ModalHeader>
-                {contacto.idContacto == 0 ? "Nuevo Contacto" : "Editar Contacto"}
+                {contacto.idContacto === 0 ? "Nuevo Contacto" : "Editar Contacto"}
             </ModalHeader>
             <ModalBody>
                 {enviandoCorreo ? (
