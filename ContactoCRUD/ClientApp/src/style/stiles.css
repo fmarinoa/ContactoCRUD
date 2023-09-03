@@ -25,24 +25,23 @@ body {
 
 .card {
     background-color: rgba(137, 140, 118, 0.8);
-    /* Rojo con 50% de opacidad */
     border: 1px solid #080808;
     border-radius: 15px;
     padding: 10px;
     margin: 10px;
 }
-
 .main-container {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
   }
-  
-  .footer {
+.footer {
     background-color: rgba(0, 0, 0, 0.4); 
     color: white; 
     padding: 10px;
     text-align: start;
     margin-top: auto; 
   }
-  
+  .my-modal .modal-content {
+    background-color: rgba(137, 140, 118, 1);
+  }

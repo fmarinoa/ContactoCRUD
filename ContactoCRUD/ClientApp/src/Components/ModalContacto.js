@@ -64,8 +64,7 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
                 setErrorCorreo("");
                 setErrorTelefono("");
 
-                // Llamar a guardarContacto para agregar un nuevo contacto
-                guardarContacto(contacto);
+                
 
                 // Mostrar el mensaje de espera
                 setEnviandoCorreo(true);
@@ -163,7 +162,7 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
     }
 
     return (
-        <Modal isOpen={mostrarModal} >
+        <Modal isOpen={mostrarModal} className="my-modal">
             <ModalHeader>
                 {contacto.idContacto === 0 ? "Nuevo Contacto" : "Editar Contacto"}
             </ModalHeader>
@@ -180,7 +179,7 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
                     <Form>
                         <FormGroup>
                             <Label>Nombre</Label>
-                            <Input type="text" name="nombre" onChange={(e) => actualizarDato(e)} value={contacto.nombre}></Input>
+                            <Input placeholder="Ingrese su nombre" type="text" name="nombre" onChange={(e) => actualizarDato(e)} value={contacto.nombre}></Input>
                             {errorNombre && (
                                 <span className="text-danger">{errorNombre}</span>
                             )}
@@ -189,6 +188,7 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
                         <FormGroup>
                             <Label>Correo</Label>
                             <Input
+                                placeholder="Ingrese su correo electrónico"
                                 type="email"
                                 name="correo"
                                 onChange={(e) => actualizarDato(e)}
@@ -203,7 +203,8 @@ const ModalContacto = ({ mostrarModal, setMostrarModal, guardarContacto, editar,
                         <FormGroup>
                             <Label>Teléfono</Label>
                             <Input
-                                type="number"
+                                placeholder="Ingrese su número teléfono"
+                                type="tel"
                                 min="0"
                                 name="telefono"
                                 onChange={(e) => actualizarDato(e)}
