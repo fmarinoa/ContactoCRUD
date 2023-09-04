@@ -1,4 +1,5 @@
-﻿using ContactoCRUD.Models;
+﻿using ClosedXML.Excel;
+using ContactoCRUD.Models;
 using ContactoCRUD.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,59 @@ namespace ContactoCRUD.Controllers
 
             return StatusCode(StatusCodes.Status200OK, lista);
         }
+
+        [HttpGet]
+        [Route("ExportarExcel")]
+        public IActionResult ExportarExcel()
+        {
+            List<Contacto> lista = _dbcontext.Contactos.OrderByDescending(c => c.IdContacto).ToList();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Contactos");
+
+                // Encabezados de columna
+                worksheet.Cell(1, 1).Value = "Nombre";
+                worksheet.Cell(1, 2).Value = "Correo";
+                worksheet.Cell(1, 3).Value = "Teléfono";
+
+                // Formato para los encabezados
+                var headerRange = worksheet.Range("A1:C1");
+                headerRange.Style.Font.Bold = true;
+                headerRange.Style.Fill.BackgroundColor = XLColor.LightGray;
+
+                // Llenar los datos de la lista en el archivo Excel
+                int row = 2;
+                foreach (var contacto in lista)
+                {
+                    worksheet.Cell(row, 1).Value = contacto.Nombre;
+                    worksheet.Cell(row, 2).Value = contacto.Correo;
+                    worksheet.Cell(row, 3).Value = contacto.Telefono;
+                    // Agrega más campos según tus necesidades
+
+                    row++;
+                }
+
+                // Formato para las celdas de datos
+                var dataRange = worksheet.Range(2, 1, row - 1, 3);
+                dataRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                dataRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+                dataRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                // Ajustar el ancho de las columnas automáticamente al contenido
+                worksheet.Columns().AdjustToContents();
+
+
+
+                // Configura la respuesta HTTP para descargar el archivo Excel
+                var stream = new MemoryStream();
+                workbook.SaveAs(stream);
+                stream.Position = 0;
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Contactos.xlsx");
+            }
+        }
+
 
 
         [HttpPost]
