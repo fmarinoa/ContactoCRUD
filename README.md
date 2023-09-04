@@ -5,8 +5,8 @@ Puedes probar una demo en vivo de la aplicación [aquí](http://www.miscontactos
 
 ## Características
 
-- **Email de bienvenida:** Mensaje de espera con animacion mientras se le envía un correo de bienvenida.
-- **Exportar a Ecel:** Perminte exportar todos los datos a un archivo excel, totalmente legible.
+- **Email de bienvenida:** Mensaje de espera con animación mientras se le envía un correo de bienvenida.
+- **Exportar a Excel:** Permite exportar todos los datos a un archivo excel, totalmente legible.
 - **Listar Contactos:** Muestra una lista de tus contactos actuales.
 - **Agregar Contactos:** Agrega nuevos contactos con información como nombre, correo y teléfono.
 - **Editar Contactos:** Modifica la información de los contactos existentes.
